@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://deveconnect_user:deveconnect2019@cluster0-kuiub.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret":"myscrettoken",
+  "githubClientId": "05ba5af589372af04411",
+  "githubClientSecret": "4cba5b6c61aafff74bdfa858f3f4814c26f76729"
+}
