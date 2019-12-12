@@ -8,6 +8,7 @@ const {check, validationResult} = require("express-validator");
 
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
+const Post = require("../../models/Post");
 
 router.get("/me", auth, async (req, res) => {
     try {
@@ -56,21 +57,27 @@ router.post("/", [
     if (company) 
         profileFields.company = company;
     
+
     if (website) 
         profileFields.website = website;
     
+
     if (location) 
         profileFields.location = location;
     
+
     if (bio) 
         profileFields.bio = bio;
     
+
     if (status) 
         profileFields.status = status;
     
+
     if (githubusername) 
         profileFields.githubusername = githubusername;
     
+
     if (skills) {
         profileFields.skills = skills.split(",").map(skill => skill.trim());
     }
@@ -79,18 +86,23 @@ router.post("/", [
     if (youtube) 
         profileFields.social.youtube = youtube;
     
+
     if (facebook) 
         profileFields.social.facebook = facebook;
     
+
     if (twitter) 
         profileFields.social.twitter = twitter;
     
+
     if (instagram) 
         profileFields.social.instagram = instagram;
     
+
     if (linkedin) 
         profileFields.social.linkedin = linkedin;
     
+
 
     try {
         let profile = await Profile.findOne({user: req.user.id});
@@ -129,6 +141,7 @@ router.get("/user/:user_id", async (req, res) => {
             return res.status(400).json({msg: "Profile not found"});
         
 
+
         res.json(profile);
     } catch (err) {
         console.error(err.message);
@@ -141,6 +154,8 @@ router.get("/user/:user_id", async (req, res) => {
 
 router.delete("/", auth, async (req, res) => {
     try {
+        await Post.deleteMany({ user: req.user.id });
+
         await Profile.findOneAndDelete({user: req.user.id});
 
         await User.findOneAndRemove({_id: req.user.id});
@@ -236,6 +251,7 @@ router.get("/github/:username", (req, res) => {
             if (error) 
                 console.error(error);
             
+
 
             if (response.statusCode !== 200) {
                 return res.status(404).json({msg: "No Github profile found"});
